@@ -1,8 +1,13 @@
-import { AppBar, Toolbar, Typography, ThemeProvider } from '@mui/material';
+import { AppBar, Toolbar, Typography, ThemeProvider /* Avatar */ } from '@mui/material';
 /* import {  useNavigate } from 'react-router-dom';
 import { useState } from 'react'; */
 import themeDasboard from '../styles/ThemeDashboard';
+/* import { useSelector } from 'react-redux';
+import { selectIsAuthenticated } from '../store/slices/AuthSlice'; */
+import UserAvatar from './dashboard/UserAvatar';
 const Navbar: React.FC = () => {
+  //const isAuthenticated = useSelector(selectIsAuthenticated);
+
 /*   const navigate = useNavigate();
   const [, setIsLoggedIn] = useState(false); */
 
@@ -18,7 +23,8 @@ const Navbar: React.FC = () => {
         <Typography variant="h5" sx={{ flexGrow: 1, fontWeight:800 }}>
           HR3
         </Typography>
-      
+
+<UserAvatar/>
       </Toolbar>
     </AppBar>
     </ThemeProvider>
