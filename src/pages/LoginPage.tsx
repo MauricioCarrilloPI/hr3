@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import  { useEffect, useState } from 'react';
 import {
   Box,
 /*   Container, */
@@ -6,8 +6,8 @@ import {
   TextField,
   Button,
   Typography,
-  Link,
-  Divider,
+/*   Link,
+  Divider, */
   InputAdornment,
   IconButton,
   CircularProgress,
@@ -21,22 +21,40 @@ import {
   ArrowBack,
   CheckCircle
 } from '@mui/icons-material';
-import image from '../assets/windowS.jpg';
+import {  useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+/* import image from '../assets/windowS.jpg';
+import faro from '../assets/faro.jpg'; */
+import acuarela from '../assets/acuarela.jpg'
+import type { AppDispatch, RootState } from '../store';
+import {  login, selectIsAuthenticated } from '../store/slices/AuthSlice';
+
+
 
 const LoginPage = () => {
+const dispatch = useDispatch<AppDispatch>();
+const navigate = useNavigate();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const { loading,  error } = useSelector((state: RootState) => state.auth);
+
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [isRegister, setIsRegister] = useState(false);
-  const [isVerification, setIsVerification] = useState(false);
+
+
+
+
+  //const [error, setError] = useState('');
+  const [isRegister, ] = useState(false);
+  const [isVerification, ] = useState(false);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
 
   const handleSubmit = (e:any) => {
     e.preventDefault();
     setIsLoading(true);
-    setError('');
+   /*  setError(''); */
     
     // Simulación de proceso de login
     setTimeout(() => {
@@ -44,42 +62,92 @@ const LoginPage = () => {
       if (email && password) {
         console.log('Login exitoso');
       } else {
-        setError('Por favor, complete todos los campos');
+       /*  setError('Por favor, complete todos los campos'); */
       }
     }, 1500);
   };
 
-  const handleToggleView = () => {
+/*   const handleToggleView = () => {
     setIsRegister(!isRegister);
-    setError('');
-  };
+     setError(''); 
+  }; */
 
   const handleToggleForgotPassword = () => {
     setIsForgotPassword(!isForgotPassword);
-    setError('');
+    /* setError(''); */
   };
 
-  const handleToggleVerification = () => {
+ /*  const handleToggleVerification = () => {
     setIsVerification(!isVerification);
     setError('');
+  }; */
+
+
+
+
+const handleLogin = () => {
+    dispatch(login({ email, password }));
   };
+
+/*   const handleLogout = () => {
+    dispatch(logout());
+  }; */
+
+  // Verificar caducidad al montar o en intervalos (opcional)
+ /*  useEffect(() => {
+    dispatch(checkTokenExpiration());
+  }, [dispatch]); */
+
+
+useEffect(() => {
+    if (isAuthenticated && !loading) {
+      navigate('/'); // Redirige a la ruta deseada
+    }
+  }, [isAuthenticated, loading, navigate]);
+
+  //console.log('isAuthenticated',isAuthenticated)
 
   return (
     <Box sx={{ 
-      minHeight: '90vh', 
+      minHeight: '90dvh', 
       display: 'flex',
       flexDirection: { xs: 'column', md: 'row' }, // Column on mobile, row on desktop
       alignItems: 'stretch',
-      bgcolor: '#f5f5f5'
+      bgcolor: '#f5f5f5',
+       
     }}>
-      {/* Sección del formulario */}
+    
+
+      {/* Sección de imagen */}
       <Box sx={{
-        flex: { xs: '1 1 auto', md: '0 0 60%' }, // Full width on mobile, 60% on desktop
+        flex: { xs: '0 0 200px', md: '0 0 45%' }, // Fixed height on mobile, 40% width on desktop
+        backgroundImage: `url(${acuarela})`,
+        backgroundSize: 'cover',
+        
+        backgroundPosition: 'center',
+        position: 'relative',
+        transition: 'all 0.3s ease',
+        order: { xs: 2, md: 1 }, // Image second on mobile
+        '&::after': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'linear-gradient(to right, rgba(0, 0, 0, 0.103), rgba(0, 0, 0, 0.055))'
+        }
+      }} />
+      
+  {/* Sección del formulario */}
+      <Box sx={{
+        flex: { xs: '1 1 auto', md: '0 0 45%', lg:'0 0 50%' }, // Full width on mobile, 60% on desktop
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         padding: { xs: '1rem', sm: '2rem' },
-        order: { xs: 1, md: 2 } // Form first on mobile
+        order: { xs: 1, md: 2 }, // Form first on mobile
+      
       }}>
         <Paper elevation={8} sx={{
           borderRadius: '10px',
@@ -99,7 +167,7 @@ const LoginPage = () => {
             <Typography variant="h2" sx={{ 
               color: '#1d2227ff', 
               margin: '1rem 0 0.5rem',
-              fontSize: { xs: '1.25rem', sm: '1.5rem' },
+              fontSize: { xs: '1.25rem', sm: '2rem' },
               fontWeight: 600
             }}>
               Bienvenido
@@ -168,7 +236,7 @@ const LoginPage = () => {
                   marginTop: '1rem',
                   height: { xs: '40px', sm: '48px' }
                 }}
-                onClick={handleToggleVerification}
+             /*    onClick={handleToggleVerification} */
               >
                 Reenviar enlace
               </Button>
@@ -181,7 +249,7 @@ const LoginPage = () => {
                   width: '100%',
                   fontSize: { xs: '0.8rem', sm: '0.9rem' }
                 }}
-                onClick={handleToggleVerification}
+                /* onClick={handleToggleVerification} */
               >
                 Volver al login
               </Button>
@@ -317,7 +385,7 @@ const LoginPage = () => {
                 />
               )}
               
-              {!isRegister && (
+         {/*      {!isRegister && (
                 <Box sx={{ textAlign: 'right' }}>
                   <Link 
                     component="button" 
@@ -335,13 +403,14 @@ const LoginPage = () => {
                     ¿Olvidaste tu contraseña?
                   </Link>
                 </Box>
-              )}
+              )} */}
               
               <Button 
-                type="submit"
+               /*  type="submit" */
                 fullWidth
                 variant="contained"
                 disabled={isLoading}
+                onClick={handleLogin}
                 sx={{
                   backgroundColor: '#040608ff',
                   '&:hover': { 
@@ -356,17 +425,17 @@ const LoginPage = () => {
                   height: { xs: '40px', sm: '48px' }
                 }}
               >
-                {isLoading ? <CircularProgress size={20} sx={{ color: 'white' }} /> : 
+                {loading ? <CircularProgress size={20} sx={{ color: 'white' }} /> : 
                   isRegister ? 'Registrarse' : 'Iniciar sesión'}
               </Button>
               
-              <Divider sx={{ margin: '1.5rem 0' }}>
+           {/*    <Divider sx={{ margin: '1.5rem 0' }}>
                 <Typography variant="body2" sx={{ color: '#95a5a6', textTransform: 'uppercase', fontSize: { xs: '0.7rem', sm: '0.75rem' } }}>
                   o
                 </Typography>
-              </Divider>
+              </Divider> */}
               
-              <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', sm: '0.9rem' } }}>
+           {/*    <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', sm: '0.9rem' } }}>
                 {isRegister ? '¿Ya tienes una cuenta?' : '¿No tienes una cuenta?'}{' '}
                 <Link 
                   component="button" 
@@ -382,32 +451,12 @@ const LoginPage = () => {
                 >
                   {isRegister ? 'Inicia sesión' : 'Regístrate'}
                 </Link>
-              </Typography>
+              </Typography> */}
             </Box>
           )}
         </Paper>
       </Box>
 
-      {/* Sección de imagen */}
-      <Box sx={{
-        flex: { xs: '0 0 200px', md: '0 0 40%' }, // Fixed height on mobile, 40% width on desktop
-        backgroundImage: `url(${image})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        position: 'relative',
-        transition: 'all 0.3s ease',
-        order: { xs: 2, md: 1 }, // Image second on mobile
-        '&::after': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: 'linear-gradient(to right, rgba(0, 0, 0, 0.103), rgba(0, 0, 0, 0.055))'
-        }
-      }} />
-      
       {/* Estilos de animación */}
       <style>
         {`
