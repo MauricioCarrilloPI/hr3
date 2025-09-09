@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/tool
 import axios from 'axios';
 
 // Estado inicial
-interface AuthState {
+interface AuthStateInterface {
   token: string | null;
   company_id: number | null;
   email: string | null;
@@ -18,7 +18,7 @@ interface AuthState {
   error: string | null;
 }
 
-const initialState: AuthState = {
+const initialState: AuthStateInterface = {
   token: null,
   company_id: null,
   email: null,
@@ -145,11 +145,11 @@ export const { logout, checkTokenExpiration } = authSlice.actions;
 export default authSlice.reducer;
 
 // Selector para verificar autenticación
-export const selectIsAuthenticated = (state: { auth: AuthState }) => {
+export const selectIsAuthenticated = (state: { auth: AuthStateInterface }) => {
   const { isAuthenticated, expirationTime } = state.auth;
   if (expirationTime !== null && Date.now() > expirationTime) {
     return false;
   }
   return isAuthenticated;
 };
-export const selectAuth = (state: { auth: AuthState }) => state.auth;
+export const selectAuth = (state: { auth: AuthStateInterface }) => state.auth;
