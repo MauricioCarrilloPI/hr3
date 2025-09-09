@@ -1,8 +1,9 @@
+// src/slices/AuthSlice.ts
 import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // Estado inicial
-interface AuthStateInterface {
+export interface AuthState {
   token: string | null;
   company_id: number | null;
   email: string | null;
@@ -12,13 +13,13 @@ interface AuthStateInterface {
   parent_id: number | null;
   rol_id: number | null;
   user_id: number | null;
-  expirationTime: number | null; // Timestamp de expiración (en ms)
+  expirationTime: number | null;
   isAuthenticated: boolean;
   loading: boolean;
   error: string | null;
 }
 
-const initialState: AuthStateInterface = {
+const initialState: AuthState = {
   token: null,
   company_id: null,
   email: null,
@@ -51,7 +52,6 @@ export const login = createAsyncThunk(
         rol_id,
         user_id,
       } = response.data.data;
-      // Calcular expiración: 1 hora desde ahora (3600 segundos * 1000 ms)
       const expirationTime = Date.now() + 3600 * 1000;
       return { token, company_id, email, last_name, second_last_name, name, parent_id, rol_id, user_id, expirationTime };
     } catch (error: any) {
@@ -133,7 +133,7 @@ const authSlice = createSlice({
           state.isAuthenticated = true;
         }
       )
-     /*  .addCase(login.rejected, (state, action: PayloadAction<string>) => {
+    /*   .addCase(login.rejected, (state, action: PayloadAction<string>) => {
         state.loading = false;
         state.error = action.payload;
         state.isAuthenticated = false;
@@ -145,11 +145,11 @@ export const { logout, checkTokenExpiration } = authSlice.actions;
 export default authSlice.reducer;
 
 // Selector para verificar autenticación
-export const selectIsAuthenticated = (state: { auth: AuthStateInterface }) => {
+export const selectIsAuthenticated = (state: { auth: AuthState }) => {
   const { isAuthenticated, expirationTime } = state.auth;
   if (expirationTime !== null && Date.now() > expirationTime) {
     return false;
   }
   return isAuthenticated;
 };
-export const selectAuth = (state: { auth: AuthStateInterface }) => state.auth;
+export const selectAuth = (state: { auth: AuthState }) => state.auth;

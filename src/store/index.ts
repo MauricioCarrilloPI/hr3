@@ -1,7 +1,6 @@
 // app/store.ts
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-//import counterReducer from '../features/counter/counterSlice';
-import authReducer from '../store/slices/AuthSlice'; // Agrega esto
+import authReducer, { type AuthState } from './slices/AuthSlice'; // Explicitly import AuthState
 import storage from 'redux-persist/lib/storage';
 import {
   persistReducer,
@@ -14,25 +13,27 @@ import {
   REGISTER,
 } from 'redux-persist';
 
+// Explicitly define RootState
+export interface RootState {
+  auth: AuthState;
+  _persist?: { version: number; rehydrated: boolean }; // Optional: for redux-persist
+}
+
 // Configuración de persistencia
 const persistConfig = {
   key: '09092025-500',
   storage,
-  whitelist: [/* 'counter', */ 'auth'], // Agrega 'auth' para persistir
+  whitelist: ['auth'],
 };
 
 // Combinar reducers
 const rootReducer = combineReducers({
-  /* counter: counterReducer, */
-  auth: authReducer, // Agrega esto
+  auth: authReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-
-
 export const store = configureStore({
-  
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -42,8 +43,5 @@ export const store = configureStore({
     }),
 });
 
-// Tipos actualizados
-export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-
 export const persistor = persistStore(store);
