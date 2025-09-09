@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import {
   Box,
-  Container,
+/*   Container, */
   Paper,
   TextField,
   Button,
@@ -96,8 +96,8 @@ const LoginPage = () => {
         }}>
           {/* Logo */}
           <Box sx={{ marginBottom: '2rem' }}>
-            <Typography variant="h4" component="h1" sx={{ 
-              color: '#2c3e50', 
+            <Typography variant="h2" sx={{ 
+              color: '#1d2227ff', 
               margin: '1rem 0 0.5rem',
               fontSize: { xs: '1.25rem', sm: '1.5rem' },
               fontWeight: 600
@@ -159,8 +159,8 @@ const LoginPage = () => {
               <Button 
                 variant="contained" 
                 sx={{
-                  backgroundColor: '#3498db',
-                  '&:hover': { backgroundColor: '#2980b9' },
+                  backgroundColor: '#1a5175ff',
+                  '&:hover': { backgroundColor: '#105989ff' },
                   borderRadius: '8px',
                   fontWeight: 600,
                   fontSize: { xs: '0.8rem', sm: '0.9rem' },
@@ -175,7 +175,7 @@ const LoginPage = () => {
               
               <Button 
                 sx={{
-                  color: '#3498db',
+                  color: '#1a4866ff',
                   marginTop: '1rem',
                   display: 'block',
                   width: '100%',
@@ -343,13 +343,14 @@ const LoginPage = () => {
                 variant="contained"
                 disabled={isLoading}
                 sx={{
-                  backgroundColor: '#3498db',
+                  backgroundColor: '#040608ff',
                   '&:hover': { 
-                    backgroundColor: '#2980b9',
+                    backgroundColor: '#000000ff',
                     transform: 'translateY(-1px)'
                   },
                   borderRadius: '8px',
                   fontWeight: 600,
+                
                   fontSize: { xs: '0.8rem', sm: '0.9rem' },
                   padding: { xs: '12px', sm: '14px' },
                   height: { xs: '40px', sm: '48px' }

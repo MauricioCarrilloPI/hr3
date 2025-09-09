@@ -5,8 +5,8 @@ import {
   CardContent,
   Typography,
   Box,
-  useTheme,
-  useMediaQuery,
+/*   useTheme,
+  useMediaQuery, */
   Avatar,
   Rating,
   Tooltip
@@ -53,14 +53,15 @@ const UserCard: React.FC<{ data: CardData }> = ({ data }) => {
             display:'grid',
             gridTemplateRows:'60% 40%',
             height:{xs: '35dvh', sm:'35dvh', md:'35dvh', lg:'43dvh' , xl:'30dvh' },
-            width: {xs: '40vw', sm:'35vw', md:'20vw', lg:'20vw' , xl:'15vw' } ,
+            width: '100%' ,
            /*  minWidth:'15rem' */
         }}>
             <Grid sx={{
                 background:'#F0F0F0',
                 borderRadius:'10px',
                 display:'grid',
-                gridTemplateRows:'55% 45%' 
+                gridTemplateRows:'55% 45%',
+                 
                  }}>
                     <Grid
                     sx={{
@@ -210,26 +211,22 @@ const UserCard: React.FC<{ data: CardData }> = ({ data }) => {
 
 // Componente principal que renderiza la cuadrícula de tarjetas
 const CardsGrid: React.FC<CardGridProps> = ({CardsFetched} ) => {
-  const theme = useTheme();
-  const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'));
+/*   const theme = useTheme(); */
+  //const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
+/*   const isMediumScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
-
+ */
   // Determinar el número de columnas según el tamaño de pantalla
-  let columns = 4; // Por defecto 4 columnas para pantallas grandes
+/*   let columns = 4; // Por defecto 4 columnas para pantallas grandes
   if (isMediumScreen) columns = 3;
-  if (isSmallScreen) columns = 2;
+  if (isSmallScreen) columns = 2; */
 
   return (
     <Box sx={{ flexGrow: 1, p: 3 }}>
       <Grid container spacing={2}>
         {CardsFetched?.map((card: any, index: any) => (
           <Grid 
-          item 
-            xs={12} 
-            sm={6} 
-            md={4} 
-            lg={4} 
+           size={{ xs: 12, sm: 6, md: 5, lg: 4 , xl:3}}
             key={index}
           >
             <UserCard data={card} />
