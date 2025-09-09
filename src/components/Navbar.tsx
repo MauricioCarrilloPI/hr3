@@ -1,15 +1,15 @@
 import { AppBar, Toolbar, Typography, ThemeProvider } from '@mui/material';
-import {  useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+/* import {  useNavigate } from 'react-router-dom';
+import { useState } from 'react'; */
 import themeDasboard from '../styles/ThemeDashboard';
 const Navbar: React.FC = () => {
-  const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+/*   const navigate = useNavigate();
+  const [, setIsLoggedIn] = useState(false); */
 
-  const handleLogout = () => {
+/*   const handleLogout = () => {
     setIsLoggedIn(false);
     navigate('/login');
-  };
+  }; */
 
   return (
     <ThemeProvider theme={themeDasboard}>

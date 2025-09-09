@@ -19,7 +19,7 @@ const defaultSteps = ['Datos del Perfil', 'Habilidades', 'Requerimientos (opcion
 const ResponsiveStepper: React.FC<ResponsiveStepperProps> = ({
   activeStep,
   steps = defaultSteps,
-  breakpoint = 'sm',
+   /* breakpoint = 'sm', */
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md')); // Cambiado a 'md' para mejor manejo
