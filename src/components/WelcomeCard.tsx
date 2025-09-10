@@ -4,7 +4,7 @@ import { Box, Typography, styled } from '@mui/material';
 // Array de textos a mostrar
 const textos = [
   "Simplifica la gestión de tu equipo humano",
-  "Analiza y putúa en segundos con IA",
+  "Analiza y puntúa en segundos con IA",
   "Analiza datos clave para tomar mejores decisiones",
   "Mejora la experiencia de tus empleados",
   "Centraliza toda la información de RH en un solo lugar",
