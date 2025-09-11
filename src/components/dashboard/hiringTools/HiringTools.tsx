@@ -1,4 +1,4 @@
-import { CalendarMonth, FolderShared, ImportContacts, QueryStats, Wallet } from "@mui/icons-material"
+import {  FolderShared,  QueryStats, Wallet } from "@mui/icons-material"
 import { Box, Button, Grid } from "@mui/material"
 import WalletTalent from "./WalletTalent"
 
