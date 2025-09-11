@@ -1,5 +1,6 @@
-import { CalendarMonth, ImportContacts, QueryStats, Wallet } from "@mui/icons-material"
+import { CalendarMonth, FolderShared, ImportContacts, QueryStats, Wallet } from "@mui/icons-material"
 import { Box, Button, Grid } from "@mui/material"
+import WalletTalent from "./WalletTalent"
 
 
 const HiringTools = () => {
@@ -13,9 +14,7 @@ const HiringTools = () => {
                 display:'grid',
                 gridTemplateColumns:'70% 30%'
                 }}>
-<Box>
-    Items space
-</Box>
+<WalletTalent/>
 
 <Box
   sx={{
@@ -107,8 +106,21 @@ const HiringTools = () => {
           Wallet de talento
         </Button>
 
-
-        <Button 
+<Button 
+            variant="contained" 
+            sx={{
+              borderRadius: 3,
+              px: 4,
+              textTransform: 'none',
+              width:'95%',
+              height:'20%',
+              fontWeight:'700'
+            }}
+            startIcon={<FolderShared/>}
+          >
+            Cargar talento
+          </Button>
+      {/*   <Button 
             variant="contained" 
             sx={{
               borderRadius: 3,
@@ -121,7 +133,7 @@ const HiringTools = () => {
             startIcon={<CalendarMonth/>}
           >
             Entrevistas programadas
-          </Button>
+          </Button> */}
     
     <Button 
             variant="contained" 

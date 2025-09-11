@@ -48,7 +48,7 @@ const EncuentraPerfilIdeal = () => {
   const [step, setStep] = useState<number>(0);
 const [loanding, setLoanding] = useState<boolean>(false)
 const [CardsFetched, setCardsFetched] = useState<CardData[]>([])
-
+const [Message, setMessage] = useState<string>()
 const navigate = useNavigate()
 
 
@@ -73,7 +73,7 @@ setLoanding(true)
   onSuccess: (data) => {
     console.log('Mutation successful, data:', data);
     setCardsFetched(data.data)
-    
+    setMessage(data.message)
     setStep(3); // Mover al paso de resultados después del éxito
     setLoanding(false)
   },
@@ -216,7 +216,7 @@ onSubmit: async (values: FormValues) => {
       marginBottom: '8px',
     }}
   >
-    Perfil: {formik.values.profile || 'No especificado'}
+    Perfil: {formik?.values?.profile || 'No especificado'}
   </Typography>
 
   {/* Keywords */}
@@ -228,7 +228,7 @@ onSubmit: async (values: FormValues) => {
       lineHeight: 1.5, // Improved readability
     }}
   >
-    Palabras clave: {formik.values.keywords || 'No especificado'}
+    Palabras clave: {formik?.values?.keywords || 'No especificado'}
   </Typography>
 
   {/* Location */}
@@ -240,7 +240,7 @@ onSubmit: async (values: FormValues) => {
       lineHeight: 1.5,
     }}
   >
-    Ubicación: {formik.values.location || 'No especificado'}
+    Ubicación: {/* {formik?.values?.location || 'No especificado'} */}
   </Typography>
 
   {/* Company */}
@@ -252,7 +252,7 @@ onSubmit: async (values: FormValues) => {
       lineHeight: 1.5,
     }}
   >
-    Empresa: {formik.values.company || 'No especificado'}
+    Empresa: {/* {formik?.values?.company || 'No especificado'} */}
   </Typography>
 
   {/* School */}
@@ -264,7 +264,7 @@ onSubmit: async (values: FormValues) => {
       lineHeight: 1.5,
     }}
   >
-    Escuela: {formik.values.school || 'No especificado'}
+    Escuela: {/* {formik?.values?.school || 'No especificado'} */}
   </Typography>
 
   {/* Language */}
@@ -288,7 +288,7 @@ onSubmit: async (values: FormValues) => {
       fontStyle: 'italic', // Subtle style for about section
     }}
   >
-    Acerca de: {formik.values.about || 'No especificado'}
+    Acerca de: {formik?.values?.about || 'No especificado'}
   </Typography>
 </Box>
             }
@@ -349,7 +349,9 @@ onSubmit: async (values: FormValues) => {
 
               {
                 (step===3 && !loanding) &&(
-<CardsGrid CardsFetched={CardsFetched}/>
+                  Message==='No se encontraron perfiles.'?
+                  <h5>No se encontraron perfiles.</h5>
+:<CardsGrid CardsFetched={CardsFetched}/>
                   
                 )
               }

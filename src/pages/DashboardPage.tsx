@@ -11,7 +11,7 @@ const DashboardPage: React.FC = () => (
  
       <Grid container className="container-dashboard" spacing={1} sx={{ 
         flexGrow: 1 , 
-        minHeight:{sx:'auto', md:'666px', lg:'866px'}, 
+        minHeight:{sx:'auto', md:'666px', lg:'500px' , xl:'866px'}, 
         height:{sx:'auto', md:'calc(100dvh - 80px)'},
            display:'grid',
             gridTemplateRows: '40% 60%' 
