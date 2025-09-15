@@ -40,7 +40,6 @@ const dispatch = useDispatch()
 
 
 
-
   const handleAvatarClick = useCallback((event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   }, []);
@@ -166,7 +165,7 @@ const handleLogout = () => {
         
         <List sx={{ py: 0 }}>
           <ListItem disablePadding>
-            <ListItemButton onClick={handleProfile}>
+            <ListItemButton onClick={()=>navigate('/settings/profile')}>
               <ListItemIcon sx={{ minWidth: 36 }}>
                 <PersonIcon fontSize="small" />
               </ListItemIcon>
@@ -178,7 +177,7 @@ const handleLogout = () => {
           </ListItem>
           
           <ListItem disablePadding>
-            <ListItemButton onClick={handleSettings}>
+            <ListItemButton onClick={()=>navigate('/settings/config')}>
               <ListItemIcon sx={{ minWidth: 36 }}>
                 <SettingsIcon fontSize="small" />
               </ListItemIcon>

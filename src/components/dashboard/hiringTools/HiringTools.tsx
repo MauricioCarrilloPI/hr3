@@ -1,4 +1,4 @@
-import {  FolderShared,  QueryStats, Wallet } from "@mui/icons-material"
+import {  AccountTree,  QueryStats, Wallet } from "@mui/icons-material"
 import { Box, Button, Grid } from "@mui/material"
 import WalletTalent from "./WalletTalent"
 
@@ -116,9 +116,9 @@ const HiringTools = () => {
               height:'20%',
               fontWeight:'700'
             }}
-            startIcon={<FolderShared/>}
+            startIcon={<AccountTree/>}
           >
-            Cargar talento
+          Seguimiento de contratación
           </Button>
       {/*   <Button 
             variant="contained" 
