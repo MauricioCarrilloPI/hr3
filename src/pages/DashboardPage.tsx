@@ -3,6 +3,7 @@ import { Box,  Grid,  ThemeProvider } from '@mui/material';
 import themeDasboard from '../styles/ThemeDashboard';
 import WelcomeCard from '../components/WelcomeCard';
 import SolutionsCardsItems from '../components/dashboard/SolutionsCardsItems';
+import HiringTools from '../components/dashboard/hiringTools/HiringTools';
 
 const DashboardPage: React.FC = () => (
   <ThemeProvider theme={themeDasboard}>
@@ -10,7 +11,7 @@ const DashboardPage: React.FC = () => (
  
       <Grid container className="container-dashboard" spacing={1} sx={{ 
         flexGrow: 1 , 
-        minHeight:{sx:'auto', md:'20rem'}, 
+        minHeight:{sx:'auto', md:'666px', lg:'500px' , xl:'866px'}, 
         height:{sx:'auto', md:'calc(100dvh - 80px)'},
            display:'grid',
             gridTemplateRows: '40% 60%' 
@@ -43,16 +44,8 @@ const DashboardPage: React.FC = () => (
 
             </Box>
             </Grid> 
-           <Grid p={1}>
-                    <Box sx={{
-                width:'100%',
-                height:'100%',
-                background:'#bebebe2d',
-                borderRadius:'10px'
-                }}>
-
-            </Box>
-            </Grid> 
+       
+       <HiringTools/>
 
         </Grid>
     </Grid>
