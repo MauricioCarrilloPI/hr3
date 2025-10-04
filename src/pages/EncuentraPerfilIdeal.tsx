@@ -54,7 +54,7 @@ const navigate = useNavigate()
 
 const mutation = useMutation({
   mutationFn: async (values: FormValues) => {
-    const apiUrl = 'http://192.168.68.171:7000/api/talent/profile/v3';
+    const apiUrl = 'https://api-linkedin-aive3zv2ka-pv.a.run.app/api/talent/profile/v3';
     const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {

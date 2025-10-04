@@ -40,7 +40,7 @@ export const login = createAsyncThunk(
   'auth/login',
   async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_AUTH_VERCEL}/auth/login`, credentials);
+      const response = await axios.post(`https://api-auth-hr3.vercel.app/api/auth/login`, credentials);
       const {
         token,
         company_id,
