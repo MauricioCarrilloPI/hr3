@@ -24,7 +24,7 @@ flexDirection={'column'}
     <Grid  display={'flex'} alignContent={'center'} justifyContent={'space-between'}>
 
     <Box sx={{ width:'auto',
-
+  filter:'blur(2px)',
 p: 1,
 
 backdropFilter: 'blur(10px)', // Difuminado de fondo

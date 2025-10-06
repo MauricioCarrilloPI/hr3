@@ -15,6 +15,7 @@ const postData = async (url:string, data:any) =>{
     setError(null);
 
 try {
+    console.log(authdata.token)
     const response = await fetch(url, {
         method:'POST',
         headers: {

@@ -20,6 +20,7 @@ const StyledCard = styled(Card)(({  }) => ({
   cursor: 'pointer',
   position: 'relative',
   overflow: 'hidden',
+  
   background: 'transparent',
   border: '1px solid #f0f0f0',
   display: 'flex',

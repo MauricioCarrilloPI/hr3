@@ -2,6 +2,10 @@ import { Card, CardContent, Box, Typography, IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
 
+interface InputFileProps {
+  setUploadTalent: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 const StyledCard = styled(Card)(({  }) => ({
   height: '90%',
   borderRadius: '12px',
@@ -17,9 +21,9 @@ const StyledCard = styled(Card)(({  }) => ({
   justifyContent: 'center',
   '&:hover': {
     transform: 'translateY(-4px)',
-    boxShadow: '0 8px 24px rgba(106, 70, 165, 0.15)',
-    borderColor: '#c4b5e0', // Lighter purple for dashed border on hover
-    backgroundColor: '#faf9fd', // Subtle background on hover
+    boxShadow: '0 8px 24px rgba(133, 133, 133, 0.13)',
+    borderColor: '#9f9f9fff', // Lighter purple for dashed border on hover
+    backgroundColor: '#f6f6f678', // Subtle background on hover
   },
   '&:active': {
     transform: 'translateY(-2px)',
@@ -69,7 +73,7 @@ const BrowseButton = styled(Box)(({ }) => ({
   fontWeight: 500,
   marginTop: '2px',
   '&:hover': {
-    backgroundColor: '#616161', // Darker grey on hover
+    backgroundColor: '#8f8f8fff', // Darker grey on hover
   },
 }));
 
@@ -87,10 +91,10 @@ const CloseButton = styled(IconButton)({
   },
 });
 
-const InputFile = () => {
+const InputFile = ({setUploadTalent}: InputFileProps ) => {
   const handleClose = () => {
     // Lógica para manejar el cierre del componente
-    console.log('Cerrando componente');
+    setUploadTalent(false)
   };
 
   return (

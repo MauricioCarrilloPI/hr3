@@ -11,7 +11,7 @@ const CardSpace = ({ children, ...props }: CardSpaceProps) => {
     <Box
     
       sx={{
-        border: "1px solid #d4d4d456",
+        border: "1px solid #d4d4d47e",
         borderRadius:'10px',
         boxShadow:'2px #000000a8',
         width: "100%",

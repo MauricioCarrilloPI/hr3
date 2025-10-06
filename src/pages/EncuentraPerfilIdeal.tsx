@@ -36,6 +36,7 @@ interface FormValues {
   language: any[];
   school: any[];
   location: any[];
+  account_id: string | null;
 }
 interface CardData {
   nombre: string;
@@ -63,7 +64,7 @@ const {validateSearchUser} = useValidateSearchUser()
 
 const mutation = useMutation({
   mutationFn: async (values: FormValues) => {
-    const apiUrl = 'http://192.168.68.171:7000/api/talent/profile/v3';
+    const apiUrl = 'https://api-linkedin-aive3zv2ka-pv.a.run.app/api/talent/profile/v4';
     const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
@@ -100,7 +101,8 @@ setLoanding(true)
     about:'',
     language:[],
     school:[],
-    location:[]
+    location:[],
+    account_id:authdata.account_id
   }
 
 const formik = useFormik<FormValues>({
@@ -128,9 +130,11 @@ onSubmit: async (values: FormValues) => {
 
   try {
 
-  const resultValidate = await validateSearchUser(authdata.user_id)
+  const resultValidate = await validateSearchUser(authdata.user_id, authdata.token)
 
-  if(resultValidate.message==="User is within the allowed number of searches this month."){
+console.log('resultValidate', resultValidate)
+
+  if(resultValidate.message==="User is within the allowed number of searches this month." || resultValidate.message==="User has no searches this month." ){
     const searchQueryString = JSON.stringify({
   ...values,
   location: locationIds,
@@ -195,7 +199,7 @@ setMessage(resultValidate.message)
               fontWeight: 'bold',
               p: 1,
             }}
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/dashboarduser')}
           >
             <ArrowBack />
             Volver

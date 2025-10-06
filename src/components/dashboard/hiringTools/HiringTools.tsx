@@ -1,5 +1,5 @@
-import {  AccountTree,  QueryStats, Wallet } from "@mui/icons-material"
-import { Box, Button, Grid } from "@mui/material"
+//import {  AccountTree,  QueryStats, Wallet } from "@mui/icons-material"
+import { Box, /* Button, */ Grid } from "@mui/material"
 import WalletTalent from "./WalletTalent"
 
 
@@ -30,9 +30,10 @@ const HiringTools = () => {
           }}
 >
 
- <Button
+{/*  <Button
           variant="contained"
           sx={{
+             filter:'blur(2px)', 
             borderRadius: 3,
             px: 2,
             textTransform: 'none',
@@ -59,8 +60,8 @@ const HiringTools = () => {
                 #000000ff
               )
             `,
-            backdropFilter: 'blur(25px)',
-            WebkitBackdropFilter: 'blur(25px)',
+             backdropFilter: 'blur(25px)', 
+            WebkitBackdropFilter: 'blur(25px)', 
             boxShadow: `
               0 8px 32px rgba(0, 0, 0, 0.3),
               inset 0 1px 1px rgba(255, 255, 255, 0.3),
@@ -104,11 +105,12 @@ const HiringTools = () => {
           startIcon={<Wallet />}
         >
           Wallet de talento
-        </Button>
+        </Button> */}
 
-<Button 
+{/* <Button 
             variant="contained" 
             sx={{
+                  filter:'blur(2px)', 
               borderRadius: 3,
               px: 4,
               textTransform: 'none',
@@ -120,7 +122,7 @@ const HiringTools = () => {
           >
           Seguimiento de contratación
           </Button>
-      {/*   <Button 
+         <Button 
             variant="contained" 
             sx={{
               borderRadius: 3,
@@ -133,11 +135,12 @@ const HiringTools = () => {
             startIcon={<CalendarMonth/>}
           >
             Entrevistas programadas
-          </Button> */}
+          </Button>  */}
     
-    <Button 
+{/*     <Button 
             variant="contained" 
             sx={{
+              filter:'blur(2px)', 
               borderRadius: 3,
               px: 2,
               textTransform: 'none',
@@ -150,7 +153,7 @@ const HiringTools = () => {
           >
             Estadísticas
           </Button>
-
+ */}
            
           
           
