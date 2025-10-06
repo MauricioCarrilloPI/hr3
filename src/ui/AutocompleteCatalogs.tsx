@@ -29,7 +29,7 @@ function AutocompleteCatalogs({ formikMethod, type, label, placeholder, flag }: 
 
       try {
         setLoader(true);
-        const response = await fetch("https://api-linkedin-aive3zv2ka-pv.a.run.app/api/talent/profile/filters", {
+        const response = await fetch(`${import.meta.env.VITE_API_LINKEDIN}/talent/profile/filters` , {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
