@@ -5,6 +5,7 @@ import axios from 'axios';
 // Estado inicial
 export interface AuthState {
   token: string | null;
+  account_id:string | null;
   company_id: number | null;
   email: string | null;
   last_name: string | null;
@@ -21,6 +22,7 @@ export interface AuthState {
 
 const initialState: AuthState = {
   token: null,
+  account_id:'',
   company_id: null,
   email: null,
   last_name: null,
@@ -44,6 +46,7 @@ export const login = createAsyncThunk(
       const {
         token,
         company_id,
+        account_id,
         email,
         last_name,
         second_last_name,
@@ -52,8 +55,9 @@ export const login = createAsyncThunk(
         rol_id,
         user_id,
       } = response.data.data;
+      localStorage.setItem('token', token)
       const expirationTime = Date.now() + 3600 * 1000;
-      return { token, company_id, email, last_name, second_last_name, name, parent_id, rol_id, user_id, expirationTime };
+      return { token, account_id, company_id, email, last_name, second_last_name, name, parent_id, rol_id, user_id, expirationTime };
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.error || 'Error en el login');
     }
@@ -66,6 +70,7 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.token = null;
+      state.account_id= '';
       state.company_id = null;
       state.email = null;
       state.last_name = null;
@@ -83,6 +88,7 @@ const authSlice = createSlice({
         state.token = null;
         state.company_id = null;
         state.email = null;
+        state.account_id= '';
         state.last_name = null;
         state.second_last_name = null;
         state.name = null;
@@ -95,6 +101,9 @@ const authSlice = createSlice({
         state.isAuthenticated = !!state.token;
       }
     },
+    updateAccountId: (state, action: PayloadAction<string>) => {
+    state.account_id = action.payload;
+  },
   },
   extraReducers: (builder) => {
     builder
@@ -117,6 +126,7 @@ const authSlice = createSlice({
             rol_id: number | null;
             user_id: number | null;
             expirationTime: number;
+            account_id: string;
           }>
         ) => {
           state.loading = false;
@@ -131,17 +141,14 @@ const authSlice = createSlice({
           state.user_id = action.payload.user_id;
           state.expirationTime = action.payload.expirationTime;
           state.isAuthenticated = true;
+          state.account_id = action.payload.account_id;
         }
       )
-    /*   .addCase(login.rejected, (state, action: PayloadAction<string>) => {
-        state.loading = false;
-        state.error = action.payload;
-        state.isAuthenticated = false;
-      }); */
+ 
   },
 });
 
-export const { logout, checkTokenExpiration } = authSlice.actions;
+export const { logout, checkTokenExpiration, updateAccountId } = authSlice.actions;
 export default authSlice.reducer;
 
 // Selector para verificar autenticación

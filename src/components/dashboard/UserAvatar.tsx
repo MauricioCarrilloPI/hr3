@@ -40,7 +40,6 @@ const dispatch = useDispatch()
 
 
 
-
   const handleAvatarClick = useCallback((event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   }, []);
@@ -49,19 +48,19 @@ const dispatch = useDispatch()
     setAnchorEl(null);
   }, []);
 
-  const handleNavigation = useCallback((path: string) => {
+/*   const handleNavigation = useCallback((path: string) => {
     navigate(path);
     handleClose();
-  }, [navigate, handleClose]);
+  }, [navigate, handleClose]); */
 
-  const handleSettings = useCallback(() => {
-    handleNavigation('/settings');
+/*   const handleSettings = useCallback(() => {
+    handleNavigation('settings');
   }, [handleNavigation]);
 
   const handleProfile = useCallback(() => {
-    handleNavigation('/profile');
+    handleNavigation('profile');
   }, [handleNavigation]);
-
+ */
  /*  const handleLogout = useCallback(() => {
     // Aquí iría la lógica de logout
     console.log('Logout');
@@ -166,7 +165,7 @@ const handleLogout = () => {
         
         <List sx={{ py: 0 }}>
           <ListItem disablePadding>
-            <ListItemButton onClick={handleProfile}>
+            <ListItemButton onClick={()=>navigate('settings/profile')}>
               <ListItemIcon sx={{ minWidth: 36 }}>
                 <PersonIcon fontSize="small" />
               </ListItemIcon>
@@ -178,7 +177,7 @@ const handleLogout = () => {
           </ListItem>
           
           <ListItem disablePadding>
-            <ListItemButton onClick={handleSettings}>
+            <ListItemButton onClick={()=>navigate('settings/config')}>
               <ListItemIcon sx={{ minWidth: 36 }}>
                 <SettingsIcon fontSize="small" />
               </ListItemIcon>

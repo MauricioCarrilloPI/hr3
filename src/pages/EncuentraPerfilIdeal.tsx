@@ -12,7 +12,7 @@ import { useState } from 'react';
 import {  useMutation } from '@tanstack/react-query';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-
+import CUBE from '../assets/cube.svg'
 import ResponsiveStepper from '../components/encuentraPerfilIdeal/ResponsiveStepper';
 import themeEpi from '../styles/ThemeEPI';
 import Habilidades from '../components/encuentraPerfilIdeal/Habilidades';
@@ -21,6 +21,10 @@ import ProfileDataSpace from '../components/encuentraPerfilIdeal/ProfileDataSpac
 import OptionalRequirements from '../components/encuentraPerfilIdeal/OptionalRequirements';
 import LoaderBlocks from '../ui/LoaderBlocks';
 import { useNavigate } from 'react-router-dom';
+import usePost from '../hooks/usePost';
+import { useSelector } from 'react-redux';
+import { selectAuth } from '../store/slices/AuthSlice';
+import useValidateSearchUser from '../hooks/useValidateSearchUser';
 
 // Define types for autocomplete options
 
@@ -32,6 +36,7 @@ interface FormValues {
   language: any[];
   school: any[];
   location: any[];
+  account_id: string | null;
 }
 interface CardData {
   nombre: string;
@@ -49,12 +54,19 @@ const EncuentraPerfilIdeal = () => {
 const [loanding, setLoanding] = useState<boolean>(false)
 const [CardsFetched, setCardsFetched] = useState<CardData[]>([])
 const [Message, setMessage] = useState<string>()
+ const authdata = useSelector(selectAuth);
+
 const navigate = useNavigate()
+const {postData} = usePost()
+
+const {validateSearchUser} = useValidateSearchUser()
 
 
 const mutation = useMutation({
   mutationFn: async (values: FormValues) => {
-    const apiUrl = 'https://api-linkedin-aive3zv2ka-pv.a.run.app/api/talent/profile/v3';
+
+    const apiUrl = 'https://api-linkedin-aive3zv2ka-pv.a.run.app/api/talent/profile/v4';
+
     const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
@@ -91,7 +103,8 @@ setLoanding(true)
     about:'',
     language:[],
     school:[],
-    location:[]
+    location:[],
+    account_id:authdata.account_id
   }
 
 const formik = useFormik<FormValues>({
@@ -118,6 +131,23 @@ onSubmit: async (values: FormValues) => {
   console.log('School IDs:', schoolIds);
 
   try {
+
+  const resultValidate = await validateSearchUser(authdata.user_id, authdata.token)
+
+console.log('resultValidate', resultValidate)
+
+  if(resultValidate.message==="User is within the allowed number of searches this month." || resultValidate.message==="User has no searches this month." ){
+    const searchQueryString = JSON.stringify({
+  ...values,
+  location: locationIds,
+  company: companyIds,
+  school: schoolIds,
+  language: languagesIds,
+});
+await postData(`${import.meta.env.VITE_API_AUTH_VERCEL}/auth/search`, {
+  user_id:authdata.user_id,
+  search_query: searchQueryString
+}) 
     await mutation.mutateAsync({
       ...values,
       location: locationIds,
@@ -125,6 +155,14 @@ onSubmit: async (values: FormValues) => {
       school: schoolIds,
       language:languagesIds,
     });
+} else{
+setMessage(resultValidate.message)
+}
+
+
+
+
+
   } catch (error) {
     console.error('Submission error:', error);
     setLoanding(false)
@@ -163,7 +201,7 @@ onSubmit: async (values: FormValues) => {
               fontWeight: 'bold',
               p: 1,
             }}
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/dashboarduser')}
           >
             <ArrowBack />
             Volver
@@ -350,7 +388,49 @@ onSubmit: async (values: FormValues) => {
               {
                 (step===3 && !loanding) &&(
                   Message==='No se encontraron perfiles.'?
-                  <h5>No se encontraron perfiles.</h5>
+                <Grid 
+                
+  mx={6} 
+  display={'flex'} 
+  alignItems={'center'} 
+  justifyContent={'center'} 
+  flexDirection={'column'} 
+  gap={3}
+  sx={{
+    padding: '2rem',
+    borderRadius: '12px',
+    maxWidth: '600px',
+    margin: 'auto',
+height:'100%'
+  }}
+>
+  <Typography 
+    variant='h5' 
+    fontWeight={'800'} 
+    sx={{
+      color: '#878787ff', // Color de texto más oscuro
+      textAlign: 'center',
+      letterSpacing: '0.3px',
+       // Opcional: para un estilo más impactante
+    }}
+  >
+    No se encontraron perfiles con ese criterio, refactorza tu búsqueda...
+  </Typography>
+
+  <img
+    src={CUBE}
+    alt="Ejemplo de imagen"
+    style={{
+      height: '10rem',
+      borderRadius: '12px', // Bordes más redondeados
+      
+      opacity: 0.30, // Filtro de opacidad
+      filter: 'grayscale(20%)', // Efecto adicional para un estilo moderno
+      transition: 'all 0.3s ease', // Transición suave para hover
+      
+    }}
+  />
+</Grid>
 :<CardsGrid CardsFetched={CardsFetched}/>
                   
                 )

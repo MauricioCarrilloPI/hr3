@@ -27,7 +27,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import faro from '../assets/faro.jpg'; */
 import acuarela from '../assets/acuarela.jpg'
 import type { AppDispatch, RootState } from '../store';
-import {  login, selectIsAuthenticated } from '../store/slices/AuthSlice';
+import {  login, selectAuth, selectIsAuthenticated } from '../store/slices/AuthSlice';
+import Navbar from '../components/Navbar';
 
 
 
@@ -35,6 +36,7 @@ const LoginPage = () => {
 const dispatch = useDispatch<AppDispatch>();
 const navigate = useNavigate();
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const authdata = useSelector(selectAuth);
   const { loading,  error } = useSelector((state: RootState) => state.auth);
 
 
@@ -99,15 +101,40 @@ const handleLogin = () => {
   }, [dispatch]); */
 
 
-useEffect(() => {
+/* useEffect(() => {
     if (isAuthenticated && !loading) {
       navigate('/'); // Redirige a la ruta deseada
     }
   }, [isAuthenticated, loading, navigate]);
+ */
+const roleRoutes: { [key: number]: string } = {
+  1125899906842625: '/superdashboard',
+  2251799813685249: '/dashboarduser',
+  1125899907000000: '/dashboarduser'
+};
+
+useEffect(() => {
+  if (isAuthenticated && !loading && authdata?.rol_id != null) {
+    // Type guard ensures rol_id is not null
+    const role  = authdata.rol_id;
+    // Redirige a la ruta correspondiente según el rol
+    const redirectTo = roleRoutes[role] || '/'; // Ruta por defecto si el rol no está definido
+    navigate(redirectTo);
+  } else {
+    // Handle the case where authdata.rol_id is null or undefined
+    navigate('/');
+  }
+}, [isAuthenticated, navigate, loading, authdata]);
+
+
+
 
   //console.log('isAuthenticated',isAuthenticated)
 
   return (
+    <>
+    <Navbar />
+   
     <Box sx={{ 
       minHeight: '90dvh', 
       display: 'flex',
@@ -468,6 +495,7 @@ useEffect(() => {
         `}
       </style>
     </Box>
+     </>
   );
 };
 

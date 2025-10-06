@@ -17,8 +17,8 @@ const LoaderBlocks = () => {
 
 const StyledWrapper = styled.div`
   .loadingspinner {
-    --square: 26px;
-    --offset: 30px;
+    --square: 60px;
+    --offset: 64px;
     --duration: 2.4s;
     --delay: 0.2s;
     --timing-function: ease-in-out;
