@@ -27,7 +27,7 @@ const NewUserDataCard: React.FC<NewUserDataCardProps> = ({ Email, Password, setA
 
 
   const handleCopyCredentials = () => {
-    const credentialsText = `Tus datos de acceso a HR3 son:\nCorreo: ${Email}\nContraseña: ${Password}\nEnlace: http://localhost:3030`;
+    const credentialsText = `Tus datos de acceso a HR3 son:\nCorreo: ${Email}\nContraseña: ${Password}\nEnlace: https://purple-hr3.vercel.app`;
     navigator.clipboard.writeText(credentialsText);
     setCopiedCredentials(true);
     setTimeout(() => setCopiedCredentials(false), 2000);

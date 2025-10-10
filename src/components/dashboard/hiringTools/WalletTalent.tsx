@@ -15,8 +15,8 @@ flexDirection={'column'}
 
 >
 <Grid sx={{height:SettingsFilterWalletTalent?'40%':{xs:'40%', sm:'35%', md:'30%', lg:'25%', xl:'20%'}, /* background: 'rgba(232, 229, 229, 0.15)', */
-        backdropFilter: 'blur(10px)', // Difuminado de fondo
-    WebkitBackdropFilter: 'blur(10px)', // Safari
+    /*     backdropFilter: 'blur(10px)', // Difuminado de fondo
+    WebkitBackdropFilter: 'blur(10px)', // Safari */
    
       background: 'rgba(255, 255, 255, 0.15)', // Fondo semi-transparente
     borderRadius: '15px'
@@ -24,7 +24,7 @@ flexDirection={'column'}
     <Grid  display={'flex'} alignContent={'center'} justifyContent={'space-between'}>
 
     <Box sx={{ width:'auto',
-  filter:'blur(2px)',
+
 p: 1,
 
 backdropFilter: 'blur(10px)', // Difuminado de fondo

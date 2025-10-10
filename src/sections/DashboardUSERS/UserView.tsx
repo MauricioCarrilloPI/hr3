@@ -1,17 +1,52 @@
-import { ArrowBack, Edit, Mail, Phone, /* Photo */ } from "@mui/icons-material";
-import { Avatar, Box, Grid, /* IconButton, */ Paper, Typography } from "@mui/material"
+import { ArrowBack, Edit, Mail } from "@mui/icons-material";
+import { Avatar, Box, Grid, IconButton, /* IconButton, */ Paper, Skeleton, Typography } from "@mui/material"
 //import { useState } from "react";
 import ensignia from '../../assets/reclutamientoensignia.png'
+import { useNavigate, useParams } from "react-router-dom";
+import { useGetServices } from "../../hooks/useGetServices";
+import RolCard from "../../components/dashboard/userManagement/userView/RolCard";
 
 const UserView = () => {
-//const [image, setImage] = useState<any>(null);
 
-/*   const handleImageChange = (event:any) => {
-    const file = event.target.files[0];
-    if (file) {
-      setImage(URL.createObjectURL(file));
-    }
-  }; */
+    const params = useParams()
+    const navigate = useNavigate()
+
+
+
+     const {
+    data: dataUserDetail,
+    isLoading: isLoadingadmin,
+    error: erroradmin 
+  } = useGetServices<any>({
+    endpoint: `/auth/${params.id}`,
+    queryKey: ['UserDetail'],
+  });
+
+
+
+
+
+
+
+/* 
+  console.log('params',dataUserDetail) */
+
+
+
+if (erroradmin?.message) {
+  return (
+    <Paper sx={{ p: 4, textAlign: 'center', m: 2 }}>
+      <Typography variant="h6" color="error" gutterBottom>
+        ¡Ups! Algo salió mal
+      </Typography>
+      <Typography variant="body2" sx={{ mb: 3 }}>
+        {erroradmin.message}
+      </Typography>
+   
+    </Paper>
+  );
+}
+
 
 
   return (
@@ -31,7 +66,10 @@ const UserView = () => {
         }}
         >
  <Grid container position={'relative'} alignContent={'center'} justifyContent={'center'}>
-   <ArrowBack fontSize="large" sx={{position:'absolute', top:10, left:'0'}}/>
+ <IconButton sx={{position:'absolute', top:10, left:'0'}} onClick={()=>navigate('/dashboarduser/usermanagement')}>
+   <ArrowBack fontSize="large" />
+ </IconButton>
+
     <Avatar src={ensignia} sx={{width:'44%', height:'50%'}} sizes="large"/>
 </Grid> 
 
@@ -54,10 +92,25 @@ const UserView = () => {
 
 
     <Grid p={3} display={'flex'} alignItems={'start'} flexDirection={'column'} justifyContent={'center'} gap={2}>
-        <Typography fontSize={{sm:'1.3rem', md:'1.9vw', xl:'2vw'}} fontWeight={'700'} variant="h3">Bryan Mauricio Carrillo García</Typography>
+       {
+isLoadingadmin?
+           <Skeleton width={'60%'} height={'60%'} sx={{placeSelf:'start'}}/>
+       : <Typography fontSize={{sm:'1.3rem', md:'1.9vw', xl:'2vw'}} fontWeight={'700'} variant="h3">
+            {dataUserDetail?.data?.name} {dataUserDetail?.data?.last_name}  {dataUserDetail?.data?.second_last_name}
+            </Typography>
+    } 
+
+{
+    isLoadingadmin?
+           <Skeleton width={'40%'} height={'40%'} sx={{placeSelf:'start'}}/>
+
+:
           <Typography fontSize={{sm:'1rem', md:'1.5vw', xl:'1.7vw'}} fontWeight={'600'} variant="h4" color="grey">
-            Enterprice NAME
+
+             {dataUserDetail?.data?.company_name} 
         </Typography>
+
+}
     </Grid>
   
      
@@ -65,13 +118,22 @@ const UserView = () => {
 
      
     <Grid p={3} display={'flex'} alignItems={'start'} flexDirection={'column'} justifyContent={'start'} gap={2}>
-         <Typography fontSize={{sm:'1rem', md:'1.5vw', xl:'1.5vw'}} fontWeight={'800'} variant="h5" color="black" display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} gap={1}>
-         <Mail fontSize="large"/>   mailtest13@test.com
+        
+
+        {
+    isLoadingadmin?
+           <Skeleton width={'40%'} height={'40%'} sx={{placeSelf:'start'}}/>
+
+:
+            <Typography fontSize={{sm:'1rem', md:'1.5vw', xl:'1.5vw'}} fontWeight={'800'} variant="h5" color="black" display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} gap={1}>
+         <Mail fontSize="large"/>   {dataUserDetail?.data?.email}
         </Typography>
 
-        <Typography fontSize={{sm:'1rem', md:'1.5vw', xl:'1.5vw'}} fontWeight={'800'} variant="h5" color="black" display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} gap={1}>
-         <Phone fontSize="large"/>   +52 4355555444
-        </Typography>
+}
+        
+      
+
+  
         </Grid>
 
    
@@ -106,34 +168,28 @@ borderRadius:'15px',
 
                 }}>
 
-<Paper elevation={0} sx={{height:'90%', 
-width:'95%', 
-background:'#ffffff63', 
-border:'3px solid #9b9b9b7f', 
-placeSelf:'center',
-borderRadius:'15px',
-display:'grid',
-gridTemplateRows:'15% 85%'
-}}>
-<Grid p={1}>  <Typography color="grey" variant="h6">Rol de usuario</Typography></Grid>
-<Grid display={'flex'} alignItems={'center'} justifyContent={'center'}>
-    <Typography variant="h5" fontWeight={'600'}>Reclutador</Typography>
-    
-    </Grid>
 
-</Paper>
+{
+
+isLoadingadmin?
+<Skeleton width={'60%'} height={'60%'} sx={{placeSelf:'center'}}/>
+
+:
+<RolCard rol_id={dataUserDetail.data.rol_id} />
+}
+
                 </Box>
 
 
 <Grid display={'flex'} flexDirection={'column'} alignItems={'start'} justifyContent={'end'} height={'50%'} gap={4} p={3}>
     <Box display={'flex'} flexDirection={'row'} gap={3}>
 <Typography color="black" fontSize={{sm:'1rem', md:'1.5vw', xl:'1.5vw'}} fontWeight={'700'} variant="h5">Actualizado</Typography>
-<Typography color="grey" fontSize={{sm:'1rem', md:'1.5vw', xl:'1.5vw'}} fontWeight={'700'} variant="h5">24/09/2025</Typography>
+<Typography color="grey" fontSize={{sm:'1rem', md:'1vw', xl:'1.2vw'}} fontWeight={'700'} variant="h5">{dataUserDetail?.data?.created_at}</Typography>
 
     </Box>
     <Box display={'flex'} flexDirection={'row'} gap={3}>
 <Typography color="black" fontSize={{sm:'1rem', md:'1.5vw', xl:'1.5vw'}} fontWeight={'700'} variant="h5">Creado</Typography>
-<Typography color="grey" fontSize={{sm:'1rem', md:'1.5vw', xl:'1.5vw'}} fontWeight={'700'} variant="h5">24/09/2025</Typography>
+<Typography color="grey" fontSize={{sm:'1rem', md:'1vw', xl:'1.2vw'}} fontWeight={'700'} variant="h5">{dataUserDetail?.data?.updated_at}</Typography>
 
     </Box>
 

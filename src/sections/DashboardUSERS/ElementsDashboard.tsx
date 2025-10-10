@@ -1,7 +1,7 @@
 import { Box, Grid } from "@mui/material"
 import WelcomeCard from "../../components/WelcomeCard"
 import SolutionsCardsItems from "../../components/dashboard/SolutionsCardsItems"
-import HiringTools from "../../components/dashboard/hiringTools/HiringTools"
+//import HiringTools from "../../components/dashboard/hiringTools/HiringTools"
 
 const ElementsDashboard = () => {
   return (
@@ -47,8 +47,18 @@ const ElementsDashboard = () => {
 
             </Box>
             </Grid> 
+
+              <Grid p={1}>
+                    <Box sx={{
+                width:'100%',
+                height:'100%',
+                background:'#bebebe2d',
+                borderRadius:'10px',
+                display:'grid',
+                gridTemplateColumns:'70% 30%'
+                }}></Box> </Grid>
        
-       <HiringTools/>
+     {/*   <HiringTools/> */}
 
         </Grid>
 

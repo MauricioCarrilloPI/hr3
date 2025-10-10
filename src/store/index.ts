@@ -21,7 +21,7 @@ export interface RootState {
 
 // Configuración de persistencia
 const persistConfig = {
-  key: '09092025-500',
+  key: '09102025-600',
   storage,
   whitelist: ['auth'],
 };

@@ -43,7 +43,9 @@ const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(loading);
+  const [ErrorMessage, setErrorMessage] = useState<any>('');
+
 
 
 
@@ -87,8 +89,15 @@ const navigate = useNavigate();
 
 
 
-const handleLogin = () => {
-    dispatch(login({ email, password }));
+const handleLogin = async () => {
+  setIsLoading(true)
+   const result = await  dispatch(login({ email, password }));
+   console.log(result)
+    if (login.rejected.match(result)) {
+    setErrorMessage(result.payload);
+  setIsLoading(false)
+
+  }
   };
 
 /*   const handleLogout = () => {
@@ -432,6 +441,12 @@ useEffect(() => {
                 </Box>
               )} */}
               
+{ErrorMessage && (
+  <Typography color="error" variant="body2">
+    {ErrorMessage}
+  </Typography>
+)}
+
               <Button 
                /*  type="submit" */
                 fullWidth
@@ -452,7 +467,7 @@ useEffect(() => {
                   height: { xs: '40px', sm: '48px' }
                 }}
               >
-                {loading ? <CircularProgress size={20} sx={{ color: 'white' }} /> : 
+                {isLoading ? <CircularProgress size={20} sx={{ color: 'white' }} /> : 
                   isRegister ? 'Registrarse' : 'Iniciar sesión'}
               </Button>
               

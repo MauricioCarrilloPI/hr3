@@ -1,6 +1,6 @@
 
 import { Box, Grid, IconButton } from '@mui/material';
-import { Home,  /* QueryStats, */ /* Group, */ /* Notifications, */ Settings, /* Person */ } from '@mui/icons-material';
+import { Home,   QueryStats,  /* Group, */ /* Notifications, */ Settings, /* Person */ } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const MenuSwitchDasboardUsers = () => {
@@ -11,8 +11,8 @@ const MenuSwitchDasboardUsers = () => {
   // Array of icons for easier mapping
   const menuItems = [
     { icon: <Home />,  path:"/dashboarduser" },
-    /* { icon: <Group />,  path:"/dashboarduser/usermanagement"  }, */
-   /*  { icon: <QueryStats />, path:"" }, */
+     /* { icon: <Group />,  path:"/dashboarduser/usermanagement"  },  */
+    { icon: <QueryStats />, path:"" }, 
   ];
 
     const menuItemsconfig = [

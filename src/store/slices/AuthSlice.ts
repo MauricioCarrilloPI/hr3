@@ -43,6 +43,9 @@ export const login = createAsyncThunk(
   async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     try {
       const response = await axios.post( `${import.meta.env.VITE_API_AUTH_VERCEL}/auth/login`, credentials);
+
+
+
       const {
         token,
         company_id,
@@ -59,7 +62,7 @@ export const login = createAsyncThunk(
       const expirationTime = Date.now() + 3600 * 1000;
       return { token, account_id, company_id, email, last_name, second_last_name, name, parent_id, rol_id, user_id, expirationTime };
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.error || 'Error en el login');
+      return rejectWithValue(error?.response?.data?.message);
     }
   }
 );
@@ -144,6 +147,16 @@ const authSlice = createSlice({
           state.account_id = action.payload.account_id;
         }
       )
+
+         .addCase(login.rejected, (state, action) => {
+      state.loading = false;
+      state.isAuthenticated = false;
+      // Si el backend envía un mensaje con rejectWithValue, vendrá en action.payload
+      state.error =
+        (action.payload as string) ||
+        action.error.message ||
+        'Error desconocido en el inicio de sesión.';
+    });
  
   },
 });

@@ -1,5 +1,5 @@
 import { Add,  Search } from "@mui/icons-material"
-import { Box, Button, Chip,  Grid,  InputAdornment, 
+import { Box, Button,   Grid,  InputAdornment, 
   LinearProgress, Link,  Paper,  Table, TableBody, 
   TableCell, TableContainer, TableHead, TableRow, TextField,  Typography 
   } from "@mui/material"
@@ -9,20 +9,8 @@ import { useGetServices } from "../../hooks/useGetServices";
 import { useSelector } from "react-redux";
 import { selectAuth } from "../../store/slices/AuthSlice";
 import AddNewUser from "../../components/dashboard/modals/AddNewUser";
-interface User {
-  id: number;
-  name: string;
-  candidate: string;
-  lastActivity: string;
-  status: 'Active' | 'Inactive' | 'Pending';
-}
 
-const dummyUsers: User[] = [
-  { id: 1125899906842625, name: 'John Doe', candidate: 'Senior Developer', lastActivity: '2025-09-22', status: 'Active' , },
-  { id: 2, name: 'Jane Smith', candidate: 'Project Manager', lastActivity: '2025-09-21', status: 'Pending' },
-  { id: 3, name: 'Bob Johnson', candidate: 'UI/UX Designer', lastActivity: '2025-09-20', status: 'Inactive' },
-  { id: 4, name: 'Alice Brown', candidate: 'Data Analyst', lastActivity: '2025-09-19', status: 'Active' },
-];
+
 
 const UsersChildrensAccount  = () => {
  
@@ -45,7 +33,7 @@ const UsersChildrensAccount  = () => {
 
 
     const {
-    data: dataadmin,
+    data:dataUsers,
    /*  isLoading: isLoadingadmin,
     error: erroradmin */
   } = useGetServices<any>({
@@ -53,28 +41,26 @@ const UsersChildrensAccount  = () => {
     queryKey: ['Admin'],
   });
 
-console.log('dataComapany:', dataComapany&&dataComapany, 'TEST', dataadmin&&dataadmin, 'AUTH:', authdata)
 
 
 
-      const filteredUsers = dummyUsers.filter(user =>
+
+
+console.log( 'AUTH:', authdata, )
+console.log('TEST', dataUsers&&dataUsers )
+
+console.log( 'dataComapany:', dataComapany&&dataComapany )
+
+
+
+
+
+      const filteredUsers = dataUsers?.data?.filter((user: { name: string; candidate: string; }) =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.candidate.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Status chip color mapping
-  const getStatusColor = (status: User['status']) => {
-    switch (status) {
-      case 'Active':
-        return 'success';
-      case 'Pending':
-        return 'warning';
-      case 'Inactive':
-        return 'error';
-      default:
-        return 'default';
-    }
-  };
 
 
     const handleOpenModal = () => {
@@ -108,7 +94,7 @@ sx={{
     gridTemplateRows:'40% 60% '
 }}>
        <Grid alignContent={'center'} textAlign={'start'}>
-        <Typography fontSize={'1.8vw'} color="gray" variant="h5" fontWeight={'800'}>Gestion de usuarios {/* asociados a cuenta */}</Typography>
+        <Typography display={'flex'} flexDirection={'row'} alignItems={'center'} gap={2} fontSize={'1.8vw'} color="gray" variant="h5" fontWeight={'800'}>Gestion de usuarios <Typography fontSize={'1.8vw'} color="black" variant="h5" fontWeight={'800'}>{dataComapany?.data?.company_name}</Typography>  </Typography>
        </Grid>
        <Grid  alignContent={'center'}>
            <TextField
@@ -175,22 +161,19 @@ height:'100%'
 
 
  {/* Sección Izquierda - Información (Ocupa ~70% del ancho) */}
-    <Box >
-      <Typography variant="h6" color="grey"  textAlign={'end'} fontWeight={'600'} fontSize={{sm:'1rem', md:'1vw', xl:'1.3vw'}} gutterBottom>
-        Usuarios disponibles
-      </Typography>
-
-      
-      <Typography  variant="h4" color="black" fontWeight={'700'} textAlign={'end'} gutterBottom>
-        6/10
-      </Typography>
-   
-      <LinearProgress 
-        variant="determinate" 
-        value={60} // 5/10 = 50%
-        sx={{ borderRadius: 5, height:{md:2, xl:6} }}
-      />
-    </Box>
+  <Box>
+  <Typography variant="h6" color="grey" textAlign={'end'} fontWeight={'600'} fontSize={{ sm: '1rem', md: '1vw', xl: '1.3vw' }} gutterBottom>
+    Usuarios disponibles
+  </Typography>
+  <Typography variant="h4" color="black" fontWeight={'700'} textAlign={'end'} gutterBottom>
+    {dataUsers?.data?.length || 0} / {dataComapany?.data?.quantity_users}
+  </Typography>
+  <LinearProgress 
+    variant="determinate" 
+    value={(dataUsers?.data?.length / dataComapany?.data?.quantity_users) * 100 || 0}
+    sx={{ borderRadius: 5, height: { md: 2, xl: 6 } }}
+  />
+</Box>
 
 
   </Box>
@@ -215,16 +198,16 @@ height:'100%'
                   }
                 }}>
                   <TableCell>Usuario</TableCell>
+                  <TableCell>Empresa</TableCell>
+                  <TableCell>Fecha de creación</TableCell>
                   <TableCell>Rol</TableCell>
-                  <TableCell>Ultima actividad</TableCell>
-                  <TableCell>Estado</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {filteredUsers.map((user) => (
+                {filteredUsers?.map((user: any) => (
                   <TableRow
                     key={user.id}
-                    onClick={()=>navigate(`/dashboarduser/user/${user.id}`)}
+                    onClick={()=>navigate(`/dashboarduser/user/${user.user_id}`)}
                     sx={{
                       '&:hover': {
                         backgroundColor: 'action.hover',
@@ -232,17 +215,12 @@ height:'100%'
                       }
                     }}
                   >
-                    <TableCell>{user.name}</TableCell>
-                    <TableCell>{user.candidate}</TableCell>
-                    <TableCell>{user.lastActivity}</TableCell>
-                    <TableCell>
-                      <Chip 
-                        label={user.status} 
-                        color={getStatusColor(user.status)}
-                        size="small"
-                        sx={{ fontWeight: 500 }}
-                      />
-                    </TableCell>
+                    <TableCell>{user.name} {user.last_name}  {user.second_last_name}</TableCell>
+                    <TableCell>{user.company_id}</TableCell>
+                    <TableCell>{user.created_at}</TableCell>
+                    <TableCell>{user.rol_id}</TableCell>
+
+                  
                   </TableRow>
                 ))}
               </TableBody>
